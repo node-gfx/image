@@ -1,6 +1,6 @@
 {
   "name": "@canvas/image",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "repository": "node-gfx/image",
   "license": "MIT",
   "files": [
