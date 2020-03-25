@@ -518,6 +518,12 @@ const testCases = [
         global.process.removeListener('uncaughtException', handler)
       }
     }
+  },
+
+  () => {
+    // imageFromBuffer should reject the promise if the buffer is malformed
+    const malformedSrc = new Uint8Array([])
+    return imageFromBuffer(malformedSrc).catch(() => {})
   }
 ]
 

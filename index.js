@@ -182,7 +182,10 @@ function getImageData (image) {
 }
 
 function imageFromBuffer (buffer) {
-  return imageFromImageData(decodeImage(buffer))
+  return new Promise((resolve) => {
+    const imageData = decodeImage(buffer)
+    resolve(imageFromImageData(imageData))
+  })
 }
 
 function imageFromImageData (imageData) {
