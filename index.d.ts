@@ -2,12 +2,10 @@ import ImageData = require('@canvas/image-data')
 
 declare interface ErrorEvent {
   type: 'error'
-  path: [Image]
 }
 
 declare interface LoadEvent {
   type: 'load'
-  path: [Image]
 }
 
 export declare class Image {

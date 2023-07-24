@@ -215,8 +215,6 @@ const testCases = [
     const load = await new Promise((resolve) => { img.onload = resolve })
 
     assert(load.type === 'load')
-    assert(load.path.length === 1)
-    assert(load.path[0] === img)
 
     assert(img.complete === true)
     assert(img.width === 2)
@@ -237,8 +235,6 @@ const testCases = [
     const load = await new Promise((resolve) => { img.onload = resolve })
 
     assert(load.type === 'load')
-    assert(load.path.length === 1)
-    assert(load.path[0] === img)
 
     assert(img.complete === true)
     assert(img.width === 2)
@@ -259,8 +255,6 @@ const testCases = [
     const load = await new Promise((resolve) => { img.onload = resolve })
 
     assert(load.type === 'load')
-    assert(load.path.length === 1)
-    assert(load.path[0] === img)
 
     assert(img.complete === true)
     assert(img.width === 2)
@@ -281,8 +275,6 @@ const testCases = [
     const load = await new Promise((resolve) => { img.onload = resolve })
 
     assert(load.type === 'load')
-    assert(load.path.length === 1)
-    assert(load.path[0] === img)
 
     assert(img.complete === true)
     assert(img.width === 2)
@@ -303,8 +295,6 @@ const testCases = [
     const load = await new Promise((resolve) => { img.onload = resolve })
 
     assert(load.type === 'load')
-    assert(load.path.length === 1)
-    assert(load.path[0] === img)
 
     assert(img.complete === true)
     assert(img.width === 2)
@@ -325,8 +315,6 @@ const testCases = [
     const err = await new Promise((resolve) => { img.onerror = resolve })
 
     assert(err.type === 'error')
-    assert(err.path.length === 1)
-    assert(err.path[0] === img)
 
     assert(img.complete === true)
     assert(img.width === 0)
@@ -346,8 +334,6 @@ const testCases = [
     const err = await new Promise((resolve) => { img.onerror = resolve })
 
     assert(err.type === 'error')
-    assert(err.path.length === 1)
-    assert(err.path[0] === img)
 
     assert(img.src === brokenImage)
     assert(img.complete === true)
@@ -368,8 +354,6 @@ const testCases = [
     const err = await new Promise((resolve) => { img.onerror = resolve })
 
     assert(err.type === 'error')
-    assert(err.path.length === 1)
-    assert(err.path[0] === img)
 
     assert(img.src === invalidDataUrl)
     assert(img.complete === true)
@@ -390,8 +374,6 @@ const testCases = [
     const err = await new Promise((resolve) => { img.onerror = resolve })
 
     assert(err.type === 'error')
-    assert(err.path.length === 1)
-    assert(err.path[0] === img)
 
     assert(img.src === 'https://thishostnameshouldhopefullyneverberegistered.com/foobar.png')
     assert(img.complete === true)
@@ -412,8 +394,6 @@ const testCases = [
     const err = await new Promise((resolve) => { img.onerror = resolve })
 
     assert(err.type === 'error')
-    assert(err.path.length === 1)
-    assert(err.path[0] === img)
 
     assert(img.src === 'https://httpstat.us/500')
     assert(img.complete === true)
@@ -434,8 +414,6 @@ const testCases = [
     const err = await new Promise((resolve) => { img.onerror = resolve })
 
     assert(err.type === 'error')
-    assert(err.path.length === 1)
-    assert(err.path[0] === img)
 
     assert(img.src === 'file:///this/file/does/not/exists.png')
     assert(img.complete === true)

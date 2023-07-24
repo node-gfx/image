@@ -44,7 +44,7 @@ function fireError (img, err) {
 
   process.nextTick(() => {
     if (!img.onerror) throw err
-    img.onerror({ type: 'error', path: [img] })
+    img.onerror({ type: 'error' })
   })
 }
 
@@ -54,7 +54,7 @@ function fireLoad (img, data) {
 
   process.nextTick(() => {
     if (!img.onload) return
-    img.onload({ type: 'load', path: [img] })
+    img.onload({ type: 'load' })
   })
 }
 
