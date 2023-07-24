@@ -3,6 +3,7 @@ const { performance } = require('perf_hooks')
 
 const base64Decode = require('fast-base64-decode')
 const base64Length = require('fast-base64-length')
+const ImageData = require('@canvas/image-data')
 const simpleGet = require('simple-get')
 
 const bmp = require('@cwasm/nsbmp')
@@ -10,6 +11,7 @@ const gif = require('@cwasm/nsgif')
 const jpeg = require('@cwasm/jpeg-turbo')
 const png = require('@cwasm/lodepng')
 const webp = require('@cwasm/webp')
+const decodeIco = require('decode-ico')
 
 const heightMap = new WeakMap()
 const imageDataMap = new WeakMap()
@@ -37,6 +39,27 @@ function decodeImage (data) {
 
   if (data[0] === 0x42 && data[1] === 0x4D) {
     return bmp.decode(data)
+  }
+
+  if (data[0] === 0x00 && data[1] === 0x00 && data[2] === 0x01 && data[3] === 0x00) {
+    const images = decodeIco(data)
+    let biggestEntry = images[0]
+
+    // ref: https://github.com/mozilla/gecko-dev/blob/10a46f9dacc39a9305ef9cbfb27f8b68e25eccc9/image/decoders/nsICODecoder.cpp#L249-L258
+    for (const image of images.slice(1)) {
+      if (
+        image.bpp >= biggestEntry.bpp &&
+        image.width * image.height >= biggestEntry.width * biggestEntry.height
+      ) {
+        biggestEntry = image
+      }
+    }
+
+    if (biggestEntry.type === 'png') {
+      return png.decode(biggestEntry.data)
+    } else {
+      return new ImageData(biggestEntry.data, biggestEntry.width, biggestEntry.height)
+    }
   }
 
   throw new Error('Unknown file format')

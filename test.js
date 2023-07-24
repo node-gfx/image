@@ -340,6 +340,87 @@ const testCases = [
 
   async () => {
     const img = new Image()
+    img.src = 'fixtures/bmp.ico?' + Math.random()
+    assert(img.complete === false)
+    assert(img.width === 0)
+    assert(img.height === 0)
+    assert(img.naturalWidth === 0)
+    assert(img.naturalHeight === 0)
+
+    const load = await new Promise((resolve) => { img.onload = resolve })
+
+    assert(load.bubbles === false)
+    assert(load.cancelable === false)
+    assert(load.currentTarget === img)
+    assert(load.defaultPrevented === false)
+    assert(load.eventPhase === 2)
+    assert(load.target === img)
+    assert(typeof load.timeStamp === 'number')
+    assert(load.type === 'load')
+
+    assert(img.complete === true)
+    assert(img.width === 32)
+    assert(img.height === 32)
+    assert(img.naturalWidth === 32)
+    assert(img.naturalHeight === 32)
+  },
+
+  async () => {
+    const img = new Image()
+    img.src = 'fixtures/png.ico?' + Math.random()
+    assert(img.complete === false)
+    assert(img.width === 0)
+    assert(img.height === 0)
+    assert(img.naturalWidth === 0)
+    assert(img.naturalHeight === 0)
+
+    const load = await new Promise((resolve) => { img.onload = resolve })
+
+    assert(load.bubbles === false)
+    assert(load.cancelable === false)
+    assert(load.currentTarget === img)
+    assert(load.defaultPrevented === false)
+    assert(load.eventPhase === 2)
+    assert(load.target === img)
+    assert(typeof load.timeStamp === 'number')
+    assert(load.type === 'load')
+
+    assert(img.complete === true)
+    assert(img.width === 32)
+    assert(img.height === 32)
+    assert(img.naturalWidth === 32)
+    assert(img.naturalHeight === 32)
+  },
+
+  async () => {
+    const img = new Image()
+    img.src = 'fixtures/multiple.ico?' + Math.random()
+    assert(img.complete === false)
+    assert(img.width === 0)
+    assert(img.height === 0)
+    assert(img.naturalWidth === 0)
+    assert(img.naturalHeight === 0)
+
+    const load = await new Promise((resolve) => { img.onload = resolve })
+
+    assert(load.bubbles === false)
+    assert(load.cancelable === false)
+    assert(load.currentTarget === img)
+    assert(load.defaultPrevented === false)
+    assert(load.eventPhase === 2)
+    assert(load.target === img)
+    assert(typeof load.timeStamp === 'number')
+    assert(load.type === 'load')
+
+    assert(img.complete === true)
+    assert(img.width === 256)
+    assert(img.height === 256)
+    assert(img.naturalWidth === 256)
+    assert(img.naturalHeight === 256)
+  },
+
+  async () => {
+    const img = new Image()
     img.src = 'fixtures/empty.dat?' + Math.random()
     assert(img.complete === false)
     assert(img.width === 0)
