@@ -1,4 +1,5 @@
 const fs = require('fs')
+const { performance } = require('perf_hooks')
 
 const base64Decode = require('fast-base64-decode')
 const base64Length = require('fast-base64-length')
@@ -46,7 +47,7 @@ function fireError (img, err) {
 
   process.nextTick(() => {
     if (!img.onerror) throw err
-    img.onerror({ type: 'error' })
+    img.onerror({ type: 'error', bubbles: false, cancelable: false, currentTarget: img, defaultPrevented: false, eventPhase: 2, target: img, timeStamp: performance.now() })
   })
 }
 
@@ -56,7 +57,7 @@ function fireLoad (img, data) {
 
   process.nextTick(() => {
     if (!img.onload) return
-    img.onload({ type: 'load' })
+    img.onload({ type: 'load', bubbles: false, cancelable: false, currentTarget: img, defaultPrevented: false, eventPhase: 2, target: img, timeStamp: performance.now() })
   })
 }
 

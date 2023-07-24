@@ -1,11 +1,25 @@
 import ImageData = require('@canvas/image-data')
 
 declare interface ErrorEvent {
-  type: 'error'
+  readonly bubbles: false
+  readonly cancelable: false
+  readonly currentTarget: Image
+  readonly defaultPrevented: false
+  readonly eventPhase: 2
+  readonly target: Image
+  readonly timeStamp: number
+  readonly type: 'error'
 }
 
 declare interface LoadEvent {
-  type: 'load'
+  readonly bubbles: false
+  readonly cancelable: false
+  readonly currentTarget: Image
+  readonly defaultPrevented: false
+  readonly eventPhase: 2
+  readonly target: Image
+  readonly timeStamp: number
+  readonly type: 'load'
 }
 
 export declare class Image {
@@ -43,7 +57,7 @@ export declare class Image {
   /**
    * This event handler will be called on the image element when the image has finished loading. If you change the image, the event will fire again when the new image loads.
    */
-  onload: (() => void) | null
+  onload: ((event: LoadEvent) => void) | null
 
   /** A string specifying the URL of the desired image. */
   src: string
