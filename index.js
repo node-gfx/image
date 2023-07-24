@@ -15,6 +15,8 @@ const imageDataMap = new WeakMap()
 const srcMap = new WeakMap()
 const widthMap = new WeakMap()
 
+const headers = { 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36' }
+
 function decodeImage (data) {
   if (data[0] === 0xFF && data[1] === 0xD8 && data[2] === 0xFF) {
     return jpeg.decode(data)
@@ -89,7 +91,7 @@ async function readDataURL (url, img) {
 async function readWeb (url, img) {
   let data
   try {
-    const [res, encoded] = await new Promise((resolve, reject) => simpleGet.concat(url, (err, res, data) => err ? reject(err) : resolve([res, data])))
+    const [res, encoded] = await new Promise((resolve, reject) => simpleGet.concat({ headers, url }, (err, res, data) => err ? reject(err) : resolve([res, data])))
     if (res.statusCode < 200 || res.statusCode >= 300) throw new Error(`Server responded with ${res.statusCode}`)
     data = decodeImage(encoded)
   } catch (err) {
