@@ -214,9 +214,14 @@ const testCases = [
 
     const load = await new Promise((resolve) => { img.onload = resolve })
 
+    assert(load.bubbles === false)
+    assert(load.cancelable === false)
+    assert(load.currentTarget === img)
+    assert(load.defaultPrevented === false)
+    assert(load.eventPhase === 2)
+    assert(load.target === img)
+    assert(typeof load.timeStamp === 'number')
     assert(load.type === 'load')
-    assert(load.path.length === 1)
-    assert(load.path[0] === img)
 
     assert(img.complete === true)
     assert(img.width === 2)
@@ -236,9 +241,14 @@ const testCases = [
 
     const load = await new Promise((resolve) => { img.onload = resolve })
 
+    assert(load.bubbles === false)
+    assert(load.cancelable === false)
+    assert(load.currentTarget === img)
+    assert(load.defaultPrevented === false)
+    assert(load.eventPhase === 2)
+    assert(load.target === img)
+    assert(typeof load.timeStamp === 'number')
     assert(load.type === 'load')
-    assert(load.path.length === 1)
-    assert(load.path[0] === img)
 
     assert(img.complete === true)
     assert(img.width === 2)
@@ -258,9 +268,14 @@ const testCases = [
 
     const load = await new Promise((resolve) => { img.onload = resolve })
 
+    assert(load.bubbles === false)
+    assert(load.cancelable === false)
+    assert(load.currentTarget === img)
+    assert(load.defaultPrevented === false)
+    assert(load.eventPhase === 2)
+    assert(load.target === img)
+    assert(typeof load.timeStamp === 'number')
     assert(load.type === 'load')
-    assert(load.path.length === 1)
-    assert(load.path[0] === img)
 
     assert(img.complete === true)
     assert(img.width === 2)
@@ -280,9 +295,14 @@ const testCases = [
 
     const load = await new Promise((resolve) => { img.onload = resolve })
 
+    assert(load.bubbles === false)
+    assert(load.cancelable === false)
+    assert(load.currentTarget === img)
+    assert(load.defaultPrevented === false)
+    assert(load.eventPhase === 2)
+    assert(load.target === img)
+    assert(typeof load.timeStamp === 'number')
     assert(load.type === 'load')
-    assert(load.path.length === 1)
-    assert(load.path[0] === img)
 
     assert(img.complete === true)
     assert(img.width === 2)
@@ -302,15 +322,101 @@ const testCases = [
 
     const load = await new Promise((resolve) => { img.onload = resolve })
 
+    assert(load.bubbles === false)
+    assert(load.cancelable === false)
+    assert(load.currentTarget === img)
+    assert(load.defaultPrevented === false)
+    assert(load.eventPhase === 2)
+    assert(load.target === img)
+    assert(typeof load.timeStamp === 'number')
     assert(load.type === 'load')
-    assert(load.path.length === 1)
-    assert(load.path[0] === img)
 
     assert(img.complete === true)
     assert(img.width === 2)
     assert(img.height === 1)
     assert(img.naturalWidth === 2)
     assert(img.naturalHeight === 1)
+  },
+
+  async () => {
+    const img = new Image()
+    img.src = 'fixtures/bmp.ico?' + Math.random()
+    assert(img.complete === false)
+    assert(img.width === 0)
+    assert(img.height === 0)
+    assert(img.naturalWidth === 0)
+    assert(img.naturalHeight === 0)
+
+    const load = await new Promise((resolve) => { img.onload = resolve })
+
+    assert(load.bubbles === false)
+    assert(load.cancelable === false)
+    assert(load.currentTarget === img)
+    assert(load.defaultPrevented === false)
+    assert(load.eventPhase === 2)
+    assert(load.target === img)
+    assert(typeof load.timeStamp === 'number')
+    assert(load.type === 'load')
+
+    assert(img.complete === true)
+    assert(img.width === 32)
+    assert(img.height === 32)
+    assert(img.naturalWidth === 32)
+    assert(img.naturalHeight === 32)
+  },
+
+  async () => {
+    const img = new Image()
+    img.src = 'fixtures/png.ico?' + Math.random()
+    assert(img.complete === false)
+    assert(img.width === 0)
+    assert(img.height === 0)
+    assert(img.naturalWidth === 0)
+    assert(img.naturalHeight === 0)
+
+    const load = await new Promise((resolve) => { img.onload = resolve })
+
+    assert(load.bubbles === false)
+    assert(load.cancelable === false)
+    assert(load.currentTarget === img)
+    assert(load.defaultPrevented === false)
+    assert(load.eventPhase === 2)
+    assert(load.target === img)
+    assert(typeof load.timeStamp === 'number')
+    assert(load.type === 'load')
+
+    assert(img.complete === true)
+    assert(img.width === 32)
+    assert(img.height === 32)
+    assert(img.naturalWidth === 32)
+    assert(img.naturalHeight === 32)
+  },
+
+  async () => {
+    const img = new Image()
+    img.src = 'fixtures/multiple.ico?' + Math.random()
+    assert(img.complete === false)
+    assert(img.width === 0)
+    assert(img.height === 0)
+    assert(img.naturalWidth === 0)
+    assert(img.naturalHeight === 0)
+
+    const load = await new Promise((resolve) => { img.onload = resolve })
+
+    assert(load.bubbles === false)
+    assert(load.cancelable === false)
+    assert(load.currentTarget === img)
+    assert(load.defaultPrevented === false)
+    assert(load.eventPhase === 2)
+    assert(load.target === img)
+    assert(typeof load.timeStamp === 'number')
+    assert(load.type === 'load')
+
+    assert(img.complete === true)
+    assert(img.width === 256)
+    assert(img.height === 256)
+    assert(img.naturalWidth === 256)
+    assert(img.naturalHeight === 256)
   },
 
   async () => {
@@ -324,9 +430,14 @@ const testCases = [
 
     const err = await new Promise((resolve) => { img.onerror = resolve })
 
+    assert(err.bubbles === false)
+    assert(err.cancelable === false)
+    assert(err.currentTarget === img)
+    assert(err.defaultPrevented === false)
+    assert(err.eventPhase === 2)
+    assert(err.target === img)
+    assert(typeof err.timeStamp === 'number')
     assert(err.type === 'error')
-    assert(err.path.length === 1)
-    assert(err.path[0] === img)
 
     assert(img.complete === true)
     assert(img.width === 0)
@@ -345,9 +456,14 @@ const testCases = [
 
     const err = await new Promise((resolve) => { img.onerror = resolve })
 
+    assert(err.bubbles === false)
+    assert(err.cancelable === false)
+    assert(err.currentTarget === img)
+    assert(err.defaultPrevented === false)
+    assert(err.eventPhase === 2)
+    assert(err.target === img)
+    assert(typeof err.timeStamp === 'number')
     assert(err.type === 'error')
-    assert(err.path.length === 1)
-    assert(err.path[0] === img)
 
     assert(img.src === brokenImage)
     assert(img.complete === true)
@@ -367,9 +483,14 @@ const testCases = [
 
     const err = await new Promise((resolve) => { img.onerror = resolve })
 
+    assert(err.bubbles === false)
+    assert(err.cancelable === false)
+    assert(err.currentTarget === img)
+    assert(err.defaultPrevented === false)
+    assert(err.eventPhase === 2)
+    assert(err.target === img)
+    assert(typeof err.timeStamp === 'number')
     assert(err.type === 'error')
-    assert(err.path.length === 1)
-    assert(err.path[0] === img)
 
     assert(img.src === invalidDataUrl)
     assert(img.complete === true)
@@ -389,9 +510,14 @@ const testCases = [
 
     const err = await new Promise((resolve) => { img.onerror = resolve })
 
+    assert(err.bubbles === false)
+    assert(err.cancelable === false)
+    assert(err.currentTarget === img)
+    assert(err.defaultPrevented === false)
+    assert(err.eventPhase === 2)
+    assert(err.target === img)
+    assert(typeof err.timeStamp === 'number')
     assert(err.type === 'error')
-    assert(err.path.length === 1)
-    assert(err.path[0] === img)
 
     assert(img.src === 'https://thishostnameshouldhopefullyneverberegistered.com/foobar.png')
     assert(img.complete === true)
@@ -411,9 +537,14 @@ const testCases = [
 
     const err = await new Promise((resolve) => { img.onerror = resolve })
 
+    assert(err.bubbles === false)
+    assert(err.cancelable === false)
+    assert(err.currentTarget === img)
+    assert(err.defaultPrevented === false)
+    assert(err.eventPhase === 2)
+    assert(err.target === img)
+    assert(typeof err.timeStamp === 'number')
     assert(err.type === 'error')
-    assert(err.path.length === 1)
-    assert(err.path[0] === img)
 
     assert(img.src === 'https://httpstat.us/500')
     assert(img.complete === true)
@@ -433,9 +564,14 @@ const testCases = [
 
     const err = await new Promise((resolve) => { img.onerror = resolve })
 
+    assert(err.bubbles === false)
+    assert(err.cancelable === false)
+    assert(err.currentTarget === img)
+    assert(err.defaultPrevented === false)
+    assert(err.eventPhase === 2)
+    assert(err.target === img)
+    assert(typeof err.timeStamp === 'number')
     assert(err.type === 'error')
-    assert(err.path.length === 1)
-    assert(err.path[0] === img)
 
     assert(img.src === 'file:///this/file/does/not/exists.png')
     assert(img.complete === true)

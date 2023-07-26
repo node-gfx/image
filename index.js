@@ -1,7 +1,9 @@
 const fs = require('fs')
+const { performance } = require('perf_hooks')
 
 const base64Decode = require('fast-base64-decode')
 const base64Length = require('fast-base64-length')
+const ImageData = require('@canvas/image-data')
 const simpleGet = require('simple-get')
 
 const bmp = require('@cwasm/nsbmp')
@@ -9,11 +11,14 @@ const gif = require('@cwasm/nsgif')
 const jpeg = require('@cwasm/jpeg-turbo')
 const png = require('@cwasm/lodepng')
 const webp = require('@cwasm/webp')
+const decodeIco = require('decode-ico')
 
 const heightMap = new WeakMap()
 const imageDataMap = new WeakMap()
 const srcMap = new WeakMap()
 const widthMap = new WeakMap()
+
+const headers = { 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36' }
 
 function decodeImage (data) {
   if (data[0] === 0xFF && data[1] === 0xD8 && data[2] === 0xFF) {
@@ -36,6 +41,27 @@ function decodeImage (data) {
     return bmp.decode(data)
   }
 
+  if (data[0] === 0x00 && data[1] === 0x00 && data[2] === 0x01 && data[3] === 0x00) {
+    const images = decodeIco(data)
+    let biggestEntry = images[0]
+
+    // ref: https://github.com/mozilla/gecko-dev/blob/10a46f9dacc39a9305ef9cbfb27f8b68e25eccc9/image/decoders/nsICODecoder.cpp#L249-L258
+    for (const image of images.slice(1)) {
+      if (
+        image.bpp >= biggestEntry.bpp &&
+        image.width * image.height >= biggestEntry.width * biggestEntry.height
+      ) {
+        biggestEntry = image
+      }
+    }
+
+    if (biggestEntry.type === 'png') {
+      return png.decode(biggestEntry.data)
+    } else {
+      return new ImageData(biggestEntry.data, biggestEntry.width, biggestEntry.height)
+    }
+  }
+
   throw new Error('Unknown file format')
 }
 
@@ -44,7 +70,7 @@ function fireError (img, err) {
 
   process.nextTick(() => {
     if (!img.onerror) throw err
-    img.onerror({ type: 'error', path: [img] })
+    img.onerror({ type: 'error', bubbles: false, cancelable: false, currentTarget: img, defaultPrevented: false, eventPhase: 2, target: img, timeStamp: performance.now() })
   })
 }
 
@@ -54,7 +80,7 @@ function fireLoad (img, data) {
 
   process.nextTick(() => {
     if (!img.onload) return
-    img.onload({ type: 'load', path: [img] })
+    img.onload({ type: 'load', bubbles: false, cancelable: false, currentTarget: img, defaultPrevented: false, eventPhase: 2, target: img, timeStamp: performance.now() })
   })
 }
 
@@ -89,7 +115,7 @@ async function readDataURL (url, img) {
 async function readWeb (url, img) {
   let data
   try {
-    const [res, encoded] = await new Promise((resolve, reject) => simpleGet.concat(url, (err, res, data) => err ? reject(err) : resolve([res, data])))
+    const [res, encoded] = await new Promise((resolve, reject) => simpleGet.concat({ headers, url }, (err, res, data) => err ? reject(err) : resolve([res, data])))
     if (res.statusCode < 200 || res.statusCode >= 300) throw new Error(`Server responded with ${res.statusCode}`)
     data = decodeImage(encoded)
   } catch (err) {
